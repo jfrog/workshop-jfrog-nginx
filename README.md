@@ -111,7 +111,7 @@ Cloud9 requires third-party-cookies. You can whitelist the specific domains. You
 
 ![image](https://user-images.githubusercontent.com/116261/159916301-feb115a1-ad99-4b7d-a0ab-cc346540f4d0.png)
 
-6. Follow [this link to find your Cloud9 EC2 instance](https://console.aws.amazon.com/ec2/v2/home?#Instances:sort=desc:launchTime).
+6. Follow [this link to find your Cloud9 EC2 instance](https://us-west-2.console.aws.amazon.com/ec2/v2/home?region=us-west-2#Instances:sort=desc:launchTime).
 7. Select the instance by clicking the checkbox, then choose **Actions ► Security ► Modify IAM role**.
 
 ![image](https://user-images.githubusercontent.com/116261/159916696-dc10fd93-2a58-45ad-ac83-c7ad3878dd68.png)
@@ -165,7 +165,7 @@ If the IAM role is not valid, **DO NOT PROCEED**. Go back and confirm the steps 
 
 ### Step 5: Setup IAM user
 
-In your Cloud9 terminal, run the following commands to create a user. 
+1. In your Cloud9 terminal, run the following commands to create a user. 
 Make sure to choose a unique username (*YOURUSER*) in the event you are sharing AWS resources.
 
 ```bash
@@ -178,21 +178,70 @@ aws iam create-access-key --user-name YOURUSER
 aws iam attach-user-policy --policy-arn arn:aws:iam::aws:policy/AdministratorAccess --user-name YOURUSER
 ```
 
-Copy the output of these commands. You will need this later!
+2. Copy the output of these commands. You will need this info in future steps!
 
 ![image](https://user-images.githubusercontent.com/116261/159914169-4dd571fd-53e7-4edf-8ea4-4438e62030c7.png)
 
-### Step 5: Get the code!
+3. Create the file ```~/.aws/credentials``` in your Cloud9 terminal with the following content (use the credentials for YOURUSER from above)
+
+```bash
+[default]
+aws_access_key_id = YOURACCESSKEYID 
+aws_secret_access_key = YOURSECRETACCESSKEY
+```
+
+### Step 6: Get the code and set up your environment!
 
 We will be working with a couple of different github repos (other than this one).
 
-**Fork** each of the following repositories to your own github account, then **clone your forks** in your Cloud9 terminal.
+1. **Fork** the [nginxinc/kic-reference-architectures](https://github.com/nginxinc/kic-reference-architectures) repo to your own github account, then **clone your fork** in your Cloud9 terminal.
+
+![image](https://user-images.githubusercontent.com/116261/159921342-3016d855-c847-485e-b586-059e60f03793.png)
 
 ```bash
-git clone https://github.com/GITHUBUSER/kic-reference-architectures
+git clone --recurse-submodules https://github.com/GITHUBUSER/kic-reference-architectures
 ```
+
+Here is [documentation on submodules](https://git-scm.com/book/en/v2/Git-Tools-Submodules) if this is your first time using them.
+
+2. In your cloned repo in the Cloud9 terminal, run the following to set up the venv. This script will install all of the tools necessary for deploying the project.
+
 ```bash
-git clone https://github.com/GITHUBUSER/bank-of-sirius.git
+cd kic-reference-architectures/bin; bash setup_venv.sh
 ```
+
+3. Create the Pulumi stack config. Create a txt file named ```Pulumi.STACKNAME.yaml``` in the ```kic-reference-architectures/config/pulumi``` directory with the following content:
+
+```yaml
+config:
+  aws:region: us-west-2
+  kic:image_name: private-registry.nginx.com/nginx-ic/nginx-plus-ingress:2.1.0
+  kic:image_origin: registry
+  kubernetes:infra_type: AWS
+
+```
+
+4. Create the client.cert and client.key files required for the use of NGINX + and place them in the following directory. (A limited time cert will be provided during the workshop)
+
+```bash
+sudo mkdir -p /etc/docker/certs.d/private-registry.nginx.com/
+```
+
+5. Fix a bug 🐛
+
+Make the following changes to the file ```pulumi/python/kubernetes/nginx/ingress-controller/__main__.py```
+
+https://github.com/damiancurry/kic-reference-architectures/commit/4c53d535291881bb18a727818bde27d6e50dac1e?diff=split
+
+
+### Step 7: Launch!
+
+Run the start script to deploy.
+
+```bash
+cd kic-reference-architectures/bin; bash start.sh
+```
+
+
 
 
