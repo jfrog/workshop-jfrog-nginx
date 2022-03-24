@@ -229,7 +229,7 @@ sudo mkdir -p /etc/docker/certs.d/private-registry.nginx.com/
 
 5. Fix a bug 🐛
 
-Make the following changes to the file ```pulumi/python/kubernetes/nginx/ingress-controller/__main__.py```
+Make the following changes to the file ```pulumi/python/kubernetes/nginx/ingress-controller/__main__.py``` and commit them. (You might want to do this outside of the Cloud9 editor and then pull the change in after its committed.)
 
 https://github.com/damiancurry/kic-reference-architectures/commit/4c53d535291881bb18a727818bde27d6e50dac1e?diff=split
 
@@ -261,5 +261,53 @@ This will take about 20 mins... When completed successfully, you should receive 
 - ***Local repositories*** are physical, locally-managed repositories into which you can deploy artifacts. These are repositories that are local to the JFrog Artifactory instance.
 - A ***remote repository*** serves as a caching proxy for a repository managed at a remote URL (which may itself be another Artifactory remote repository).
 - A ***virtual repository*** (or “repository group”) aggregates several repositories with the same package type under a common URL. A virtual repository can aggregate local and remote repositories.
+
+4. Create another local Docker repository for your production images
+
+### Step 2.2: Fix up some code and prep the frontend service for CI
+
+1. First, we will need to download our code to prepare. **Fork** the [nginxinc/bank-of-sirius](https://github.com/nginxinc/bank-of-sirius) repo to your own github account, then **clone your fork**.
+
+NOTE: You might find it easier to do this portion outside of your Cloud9 terminal in an editor you prefer.
+
+```bash
+git clone https://github.com/GITHUBUSER/bank-of-sirius.git
+```
+
+2. Build and store the base image we will rely on
+
+```bash
+docker login YOURJFROG.jfrog.io
+```
+```bash
+cd bank-of-sirius/base-images/python
+docker build --tag YOURJFROG.jfrog.io/workshop-docker/bos-python
+```
+```bash
+docker push YOURJFROG.jfrog.io/workshop-docker/bos-python
+```
+
+3. Modify the Dockerfile for the ***frontend*** service at ```bank-of-sirious/src/frontend/Dockerfile```
+
+CHANGE:
+```bash
+FROM bos-python
+```
+
+TO:
+```bash
+ARG IMAGE_PREFIX=YOURJFROG.jfrog.io/workshop-docker
+
+FROM $IMAGE_PREFIX/bos-python
+```
+
+4. Commit this change to your fork
+
+### Step 2.3: Set up Pipeline Integrations
+
+1. Add an Artifactory integration
+2. Add a GitHub integration
+3. Create a Pipeline Source
+4. Create the pipelines.yml and commit
 
 
