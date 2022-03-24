@@ -6,9 +6,9 @@ We will be leveraging the NGINX MARA project, which allows you to easily deploy 
 
 To get the most out of this workshop, you should have a familiarity with Kubernetes, the Linux CLI (or comparable command line utility), Docker, and an understanding of automation tools and software. 
 
-## Instructions
+## Instructions - Part 1 (Standup existing application and infrastructure)
 
-### Step 1: Sign up for required accounts
+### Step 1.1: Sign up for required accounts
 
 - #### GitHub Account (Admin access) [Sign up](https://github.com/signup)
 
@@ -54,7 +54,7 @@ If you are attending a live workshop event, you may have access to the AWS Event
 
 4. Then select Open AWS Console.
 
-### Step 2: Set up Cloud9 IDE
+### Step 1.2: Set up Cloud9 IDE
 For a live workshop, it's convenient to work in a consistent environment. If you are confident you can resolve all needed dependencies on your own machine, this step is not required.
 [AWS Cloud9](https://aws.amazon.com/cloud9/) is a cloud-based integrated development environment (IDE) that lets you write, run, and debug your code with just a browser. It includes a code editor, debugger, and terminal. Cloud9 comes prepackaged with essential tools for popular programming languages, including JavaScript, Python, PHP, and more, so you don’t need to install files or configure your development machine to start new projects.
 
@@ -101,7 +101,7 @@ If you don’t like this dark theme, you can change it from the **View ► Theme
 
 Cloud9 requires third-party-cookies. You can whitelist the specific domains. You are having issues with this, Ad blockers, javascript disablers, and tracking blockers should be disabled for the Cloud9 domain, or connecting to the workspace might can be impacted.
 
-### Step 3: Create an IAM Role for your workspace and attach it
+### Step 1.3: Create an IAM Role for your workspace and attach it
 
 1. Follow [this link to create an IAM role with Administrator access](https://console.aws.amazon.com/iam/home#/roles$new?step=review&commonUseCase=EC2%2BEC2&selectedUseCase=EC2&policies=arn:aws:iam::aws:policy%2FAdministratorAccess).
 2. Confirm that **AWS service** and **EC2** are selected, then click **Next** to view permissions.
@@ -121,7 +121,7 @@ Cloud9 requires third-party-cookies. You can whitelist the specific domains. You
 ![image](https://user-images.githubusercontent.com/116261/159916749-848bd7ee-916c-4054-bee9-52904f863b71.png)
 
 
-### Step 4: Update IAM settings for your workspace
+### Step 1.4: Update IAM settings for your workspace
 
 1. Return to your Cloud9 workspace and click the gear icon (in top right corner).
 
@@ -163,7 +163,7 @@ If the IAM role is not valid, **DO NOT PROCEED**. Go back and confirm the steps 
 
 ![image](https://user-images.githubusercontent.com/116261/159908647-5174a67b-876f-405e-81b4-0ea26834e9ad.png)
 
-### Step 5: Setup IAM user
+### Step 1.5: Setup IAM user
 
 1. In your Cloud9 terminal, run the following commands to create a user. 
 Make sure to choose a unique username (*YOURUSER*) in the event you are sharing AWS resources.
@@ -190,7 +190,7 @@ aws_access_key_id = YOURACCESSKEYID
 aws_secret_access_key = YOURSECRETACCESSKEY
 ```
 
-### Step 6: Get the code and set up your environment!
+### Step 1.6: Get the code and set up your environment!
 
 We will be working with a couple of different github repos (other than this one).
 
@@ -234,7 +234,7 @@ Make the following changes to the file ```pulumi/python/kubernetes/nginx/ingress
 https://github.com/damiancurry/kic-reference-architectures/commit/4c53d535291881bb18a727818bde27d6e50dac1e?diff=split
 
 
-### Step 7: Launch!
+### Step 1.7: Launch!
 
 Run the start script to deploy.
 
@@ -242,6 +242,24 @@ Run the start script to deploy.
 cd kic-reference-architectures/bin; bash start.sh
 ```
 
+This will take about 20 mins... When completed successfully, you should receive a url where you can access the Bank of Sirius.
 
+## Instructions Part 2 (Stand up CI for Bank of Sirius frontend service)
+
+### Step 2.1: Set up Docker repositories
+
+1. Login to your JFrog Platform Instance
+
+2. Create Docker repositories via the Artifactory **Quick Setup**
+
+![Screen Shot 2022-03-24 at 8 23 48 AM](https://user-images.githubusercontent.com/116261/159937727-5098778b-9d27-4178-9729-acf24cba4dc8.png)
+
+3. Select the **Create a new repository** button, enter **workshop** for the Repository prefix, and click **Create**.
+
+![Screen Shot 2022-03-24 at 8 15 23 AM](https://user-images.githubusercontent.com/116261/159935960-3ce7d3e0-95e3-48ef-a1bd-fa61ab7a8fb1.png)
+
+- ***Local repositories*** are physical, locally-managed repositories into which you can deploy artifacts. These are repositories that are local to the JFrog Artifactory instance.
+- A ***remote repository*** serves as a caching proxy for a repository managed at a remote URL (which may itself be another Artifactory remote repository).
+- A ***virtual repository*** (or “repository group”) aggregates several repositories with the same package type under a common URL. A virtual repository can aggregate local and remote repositories.
 
 
