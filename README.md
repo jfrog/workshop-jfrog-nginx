@@ -101,7 +101,27 @@ If you don’t like this dark theme, you can change it from the **View ► Theme
 
 Cloud9 requires third-party-cookies. You can whitelist the specific domains. You are having issues with this, Ad blockers, javascript disablers, and tracking blockers should be disabled for the Cloud9 domain, or connecting to the workspace might can be impacted.
 
-### Step 3: Update IAM settings for your workspace
+### Step 3: Create an IAM Role for your workspace and attach it
+
+1. Follow [this link to create an IAM role with Administrator access](https://console.aws.amazon.com/iam/home#/roles$new?step=review&commonUseCase=EC2%2BEC2&selectedUseCase=EC2&policies=arn:aws:iam::aws:policy%2FAdministratorAccess).
+2. Confirm that **AWS service** and **EC2** are selected, then click **Next** to view permissions.
+3. Confirm that AdministratorAccess is checked, then click **Next** through to **Review**.
+4. Enter **JFrog-Workshop-Admin** for the role name.
+5. Click **Create Role**.
+
+![image](https://user-images.githubusercontent.com/116261/159916301-feb115a1-ad99-4b7d-a0ab-cc346540f4d0.png)
+
+6. Follow [this link to find your Cloud9 EC2 instance](https://console.aws.amazon.com/ec2/v2/home?#Instances:sort=desc:launchTime).
+7. Select the instance by clicking the checkbox, then choose **Actions ► Security ► Modify IAM role**.
+
+![image](https://user-images.githubusercontent.com/116261/159916696-dc10fd93-2a58-45ad-ac83-c7ad3878dd68.png)
+
+8. Choose **JFrog-Workshop-Admin** from the **IAM Role** drop down, and click **Save**.
+
+![image](https://user-images.githubusercontent.com/116261/159916749-848bd7ee-916c-4054-bee9-52904f863b71.png)
+
+
+### Step 4: Update IAM settings for your workspace
 
 1. Return to your Cloud9 workspace and click the gear icon (in top right corner).
 
@@ -143,7 +163,7 @@ If the IAM role is not valid, **DO NOT PROCEED**. Go back and confirm the steps 
 
 ![image](https://user-images.githubusercontent.com/116261/159908647-5174a67b-876f-405e-81b4-0ea26834e9ad.png)
 
-### Step 4: Setup IAM user
+### Step 5: Setup IAM user
 
 In your Cloud9 terminal, run the following commands to create a user. 
 Make sure to choose a unique username (*YOURUSER*) in the event you are sharing AWS resources.
@@ -161,5 +181,18 @@ aws iam attach-user-policy --policy-arn arn:aws:iam::aws:policy/AdministratorAcc
 Copy the output of these commands. You will need this later!
 
 ![image](https://user-images.githubusercontent.com/116261/159914169-4dd571fd-53e7-4edf-8ea4-4438e62030c7.png)
+
+### Step 5: Get the code!
+
+We will be working with a couple of different github repos (other than this one).
+
+**Fork** each of the following repositories to your own github account, then **clone your forks** in your Cloud9 terminal.
+
+```bash
+git clone https://github.com/GITHUBUSER/kic-reference-architectures
+```
+```bash
+git clone https://github.com/GITHUBUSER/bank-of-sirius.git
+```
 
 
