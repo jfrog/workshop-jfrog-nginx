@@ -309,5 +309,4 @@ FROM $IMAGE_PREFIX/bos-python
 2. Add a GitHub integration
 3. Create a Pipeline Source
 4. Create the pipelines.yml and commit
-
-
+5. Experiment with pipeline deploys!
