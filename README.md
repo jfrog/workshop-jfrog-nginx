@@ -1,3 +1,5 @@
+[Additional Resources](#additional-resources)
+
 # Hands on Workshop: Automated Blue/Green K8s Deployment Exercise with JFrog & Nginx
 
 This workshop will walk through an example of a “production ready” Kubernetes deployment with logging, observability, and an example microservice application that is deployed to AWS infrastructure via the JFrog Platform. This will include standing up an AWS VPC cluster, Elastic Kubernetes Service (EKS), and the NGINX Kubernetes Ingress Controller (KIC) using the JFrog Platform for artifact storage and automation.
@@ -310,3 +312,10 @@ FROM $IMAGE_PREFIX/bos-python
 3. Create a Pipeline Source
 4. Create the pipelines.yml and commit
 5. Experiment with pipeline deploys!
+
+
+### Additional Resources
+- [Modern App Deployments: How to Use NGINX and JFrog to Automate Your Blue/Green Deployments](https://jfrog.com/user-conference/modern-app-deployments-how-to-use-nginx-and-jfrog-to-automate-your-blue-green-deployments/)
+- [F5 NGINX Ingress Controller](https://www.nginx.com/products/nginx-ingress-controller/)
+- [JFrog Docker Registry Documentation](https://www.jfrog.com/confluence/display/JFROG/Docker+Registry)
+- [JFrog Pipelines Developer Guide](https://www.jfrog.com/confluence/display/JFROG/Pipelines+Developer+Guide)
