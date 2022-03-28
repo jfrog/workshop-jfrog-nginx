@@ -316,6 +316,7 @@ FROM $IMAGE_PREFIX/bos-python
 
 ### Additional Resources
 - [Modern App Deployments: How to Use NGINX and JFrog to Automate Your Blue/Green Deployments](https://jfrog.com/user-conference/modern-app-deployments-how-to-use-nginx-and-jfrog-to-automate-your-blue-green-deployments/)
+- [NGINX Plus Free Trial Request(https://www.nginx.com/free-trial-request/)
 - [F5 NGINX Ingress Controller](https://www.nginx.com/products/nginx-ingress-controller/)
 - [JFrog Docker Registry Documentation](https://www.jfrog.com/confluence/display/JFROG/Docker+Registry)
 - [JFrog Pipelines Developer Guide](https://www.jfrog.com/confluence/display/JFROG/Pipelines+Developer+Guide)
